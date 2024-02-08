@@ -13,20 +13,22 @@ window.onload = async () => {
     function setValues(package){
         target.textContent = package[i][0]
     
-        let correctPos = Math.floor(Math.random()*3)
-        if (correctPos === 0) {
-            guess1.textContent = package[i][1]; // Value for correct guess position
+        let correctPos = Math.floor((Math.random()*3)+1)
+        console.log(correctPos,package[i][1])
+        if (correctPos === 1) {
+            guess1.textContent = package[i][1];
             guess2.textContent = package[i][2];
             guess3.textContent = package[i][3];
-        } else if (correctPos === 1) {
+        } else if (correctPos === 2) {
             guess1.textContent = package[i][2];
-            guess2.textContent = package[i][1]; // Value for correct guess position
+            guess2.textContent = package[i][1];
             guess3.textContent = package[i][3];
         } else {
             guess1.textContent = package[i][2];
             guess2.textContent = package[i][3];
-            guess3.textContent = package[i][1]; // Value for correct guess position
+            guess3.textContent = package[i][1];
         }
+        return correctPos;
     }
 
     const data = await getData();
@@ -51,25 +53,31 @@ window.onload = async () => {
 
     let i = 0
 
-    const target = document.querySelector('#target')
-    const guess1 = document.querySelector('#guess1')
-    const guess2 = document.querySelector('#guess2')
-    const guess3 = document.querySelector('#guess3')
+    const target = document.querySelector('#target');
+    const guess1 = document.querySelector('#guess1');
+    const guess2 = document.querySelector('#guess2');
+    const guess3 = document.querySelector('#guess3');
 
+    const right_count = document.querySelector('#right-count');
+    const wrong_count = document.querySelector('#wrong-count');
     
-    await setValues(package)
+    correctValue = await setValues(package);
 
 
     document.querySelectorAll('.link').forEach(link =>{
         link.addEventListener('click',()=>{
             if (i < wordsCount){
                 i++;
-                console.log('clicked!');
-                
-                setValues(package);
+                if(link.id == 'guess'+correctValue){
+                    right_count.textContent = parseInt(right_count.textContent) + 1;
+                }
+                else{
+                    wrong_count.textContent = parseInt(wrong_count.textContent) + 1;
+                }
+                correctValue = setValues(package);
             }
         })
-    })
+    });
     
 
     // console.log(lines);
