@@ -10,6 +10,7 @@ body{
     grid-template-rows: 20% 30% 30% 20%;
     grid-template-columns: 20% 20% 20% 20% 20%;
     text-align: center;
+    color:black;
 }
 
 .container div{
@@ -59,5 +60,13 @@ body{
 }
 
 .link:hover{
-    background-color: aqua;
+    color: aqua;
+}
+
+.correct{
+    color:green !important;
+}
+
+.incorrect{
+    color:red !important;
 }

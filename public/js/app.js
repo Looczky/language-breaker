@@ -1,32 +1,15 @@
-import { getRandomAndDelete, getData} from "./utils.js";
+'use strict'
+
+import { getData} from "./utils.js";
+import { constructWordsPack, setValues } from "./helper.js";
 
 window.onload = async () => {
-
-    function setValues(pack){
-        target.textContent = pack[i][0]
-    
-        let correctPos = Math.floor((Math.random()*3)+1)
-        console.log(correctPos,pack[i][1])
-        if (correctPos === 1) {
-            guess1.textContent = pack[i][1];
-            guess2.textContent = pack[i][2];
-            guess3.textContent = pack[i][3];
-        } else if (correctPos === 2) {
-            guess1.textContent = pack[i][2];
-            guess2.textContent = pack[i][1];
-            guess3.textContent = pack[i][3];
-        } else {
-            guess1.textContent = pack[i][2];
-            guess2.textContent = pack[i][3];
-            guess3.textContent = pack[i][1];
-        }
-        return correctPos;
-    }
 
     const target = document.querySelector('#target');
     const guess1 = document.querySelector('#guess1');
     const guess2 = document.querySelector('#guess2');
     const guess3 = document.querySelector('#guess3');
+    
 
     const right_count = document.querySelector('#right-count');
     const wrong_count = document.querySelector('#wrong-count');
@@ -35,22 +18,8 @@ window.onload = async () => {
     const data = await getData('data/words.txt');
     const lines = data.split('\n');
 
-    let linesPool = [...lines];
-    let pack = [];
     let wordsCount = 20;
-
-    for (let i = 0; i<wordsCount; i++){
-
-        const randomValue1 = getRandomAndDelete(linesPool).split('\t');
-        const [spanish, english] = randomValue1;
-        
-        const randomValue2 = getRandomAndDelete(linesPool).split('\t');
-        const randomValue3 = getRandomAndDelete(linesPool).split('\t');
-        const [, wrong_1] = randomValue2;
-        const [, wrong_2] = randomValue3;
-
-        pack.push([spanish,english,wrong_1,wrong_2]);
-    }
+    let pack = constructWordsPack(lines,wordsCount)
 
     let i = 0
 
@@ -58,28 +27,56 @@ window.onload = async () => {
     remaining_count.textContent = wordsCount
 
 
-    let correctValue = await setValues(pack);
+    let correctValue = await setValues(pack,i);
 
-    document.querySelectorAll('.link').forEach(link =>{
-        link.addEventListener('click',()=>{
-            if (i < wordsCount){
-                i++;
-                if(link.id == 'guess'+correctValue){
-                    right_count.textContent = parseInt(right_count.textContent) + 1;
+    let clickable = true
+    async function clickHandler(link) {
+        if (!clickable) return;
+        clickable = false;
+    
+        if (i < wordsCount) {
+            i++;
+            if (link.id == 'guess' + correctValue) {
+                right_count.textContent = parseInt(right_count.textContent) + 1;
+            } else {
+                wrong_count.textContent = parseInt(wrong_count.textContent) + 1;
+            }
+            remaining_count.textContent = parseInt(remaining_count.textContent) - 1;
+            
+            let guesses = [guess1,guess2,guess3]
+            for (let guess of guesses){
+                console.log(guess);
+                if (guess.id == 'guess' + correctValue){
+                    guess.classList.add('correct')
                 }
                 else{
-                    wrong_count.textContent = parseInt(wrong_count.textContent) + 1;
-                }
-                remaining_count.textContent = parseInt(remaining_count.textContent) - 1;
-
-                if (i != wordsCount){
-                    console.log(i,wordsCount)
-                    correctValue = setValues(pack);
+                    guess.classList.add('incorrect')
                 }
             }
-        })
-    });
+
+            await new Promise(resolve => setTimeout(resolve, 200));
+
+            for (let guess of guesses){
+                console.log(guess);
+                if (guess.id == 'guess' + correctValue){
+                    guess.classList.remove('correct')
+                }
+                else{
+                    guess.classList.remove('incorrect')
+                }
+            }
+
+            if (i != wordsCount) {
+                correctValue = await setValues(pack, i);
+            }
+        }
     
+        clickable = true;
+    }
+
+    document.querySelectorAll('.link').forEach(async link =>{
+        link.addEventListener('click',()=> clickHandler(link));
+    });
     
 };
 
