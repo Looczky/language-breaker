@@ -11,7 +11,9 @@ window.onload = async () => {
     const chooseWordsButtons = document.querySelectorAll('.choose-words');
     const menuElements = document.querySelectorAll('.menu')
     const playAgain = document.querySelector('#play-again');
-
+    const chooseSetButton = document.querySelector('#change-word-set');
+    const resultItems = document.querySelectorAll('.result');
+    const gameItems = document.querySelectorAll('.game');
 
     let wordsCount = 5
     
@@ -23,11 +25,30 @@ window.onload = async () => {
             menuElements.forEach(e=>{
                 e.classList.add('invisible');
             });
+            chooseSetButton.classList.remove('invisible');
         })
+
+    })
+
+    chooseSetButton.addEventListener('click',()=>{
+        menuElements.forEach(e=>{
+            e.classList.remove('invisible');
+        })
+        resultItems.forEach(e=>{
+            e.classList.add('invisible')
+        })
+        gameItems.forEach(item=>{
+            item.classList.add('invisible');
+        });
+        document.querySelectorAll('.link').forEach(button=>{
+            console.log('co');
+            button.replaceWith(button.cloneNode(true));
+        });
+        chooseSetButton.classList.add('invisible');
     })
 
     playAgain.addEventListener('click',()=>{
-        const resultItems = document.querySelectorAll('.result');
+        
         resultItems.forEach(item=>{
             item.classList.add('invisible');
         })
