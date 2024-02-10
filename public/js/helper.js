@@ -41,4 +41,91 @@ function setValues(pack,i){
     return correctPos;
 }
 
-export {constructWordsPack, setValues}
+async function displayGame(lines,wordsCount){
+    const target = document.querySelector('#target');
+    const guess1 = document.querySelector('#guess1');
+    const guess2 = document.querySelector('#guess2');
+    const guess3 = document.querySelector('#guess3');
+    
+
+    const rightCount = document.querySelector('#right-count');
+    const wrongCount = document.querySelector('#wrong-count');
+    const remainingCount = document.querySelector('#remaining-count');
+    const gameItems = document.querySelectorAll('.game');
+    const resultItems = document.querySelectorAll('.result');
+    const resultWrongCount = document.querySelector('#result-wrong-count');
+    const resultCorrectCount = document.querySelector('#result-correct-count');
+    const resultPercentage = document.querySelector('#result-percentage');
+
+    let pack = constructWordsPack(lines,wordsCount);
+    let i = 0;
+
+    remainingCount.textContent = wordsCount;
+    rightCount.textContent = 0;
+    wrongCount.textContent = 0;
+
+    let correctValue = await setValues(pack,i);
+
+    gameItems.forEach(item=>{
+        item.classList.remove('invisible');
+    });
+
+
+    let clickable = true
+    document.querySelectorAll('.link').forEach(async link =>{
+        link.addEventListener('click',async ()=> {
+            if (!clickable) return;
+            clickable = false;
+        
+            if (i < wordsCount) {
+                i++;
+                if (link.id == 'guess' + correctValue) {
+                    rightCount.textContent = parseInt(rightCount.textContent) + 1;
+                } else {
+                    wrongCount.textContent = parseInt(wrongCount.textContent) + 1;
+                }
+                remainingCount.textContent = parseInt(remainingCount.textContent) - 1;
+                
+                let guesses = [guess1,guess2,guess3]
+                for (let guess of guesses){
+                    if (guess.id == 'guess' + correctValue){
+                        guess.classList.add('correct')
+                    }
+                    else{
+                        guess.classList.add('incorrect')
+                    }
+                }
+        
+                await new Promise(resolve => setTimeout(resolve, 200));
+        
+                for (let guess of guesses){
+                    if (guess.id == 'guess' + correctValue){
+                        guess.classList.remove('correct')
+                    }
+                    else{
+                        guess.classList.remove('incorrect')
+                    }
+                }
+        
+                if (i != wordsCount) {
+                    correctValue = await setValues(pack, i);
+                }
+                else{
+                    gameItems.forEach(item=>{
+                        item.classList.add('invisible');
+                    });
+                    resultWrongCount.textContent = wrongCount.textContent;
+                    resultCorrectCount.textContent = rightCount.textContent;
+                    resultPercentage.textContent = (Math.round(parseFloat(rightCount.textContent) * 10000/ 3) / 100) + '%';
+                    resultItems.forEach(item=>{
+                        item.classList.remove('invisible');
+                    });
+                }
+            }
+        
+            clickable = true;
+            });
+    });
+}
+
+export {constructWordsPack, setValues, displayGame}

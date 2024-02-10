@@ -11,12 +11,16 @@ body{
     grid-template-columns: 20% 20% 20% 20% 20%;
     text-align: center;
     color:black;
+    background-color: #E5DECF;
 }
 
 .container div{
     margin:auto;
 }
 
+.invisible{
+    display: none;
+}
 
 .grid-item-1{
     grid-row: 2/3;

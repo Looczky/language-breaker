@@ -8,37 +8,57 @@
 </head>
 <body>
     <div class="container">
-        <div class="grid-item-1">
+        <div class="grid-item-1 invisible game">
             <span id='target'>COCHE</span>
         </div>
         
-        <div class="grid-item-2">
+        <div class="grid-item-2 invisible game">
             <button class='link' id="guess1">CAR</button>
         </div>
 
-        <div class="grid-item-3">
+        <div class="grid-item-3 invisible game">
             <button class="link" id="guess2">CAT</button>
         </div>
 
-        <div class="grid-item-4">
+        <div class="grid-item-4 invisible game">
             <button class="link" id="guess3">DOG</button>
         </div>
 
-        <div class="grid-item-5">
+        <div class="grid-item-5 invisible game">
             <span id="right">RIGHT:</span><br>
             <span id="right-count">0</span>
         </div>
 
-        <div class="grid-item-6">
+        <div class="grid-item-6 invisible game">
             <span id="wrong">WRONG:</span><br>
             <span id='wrong-count'>0</span>
         </div>
 
 
-        <div class="grid-item-7">
+        <div class="grid-item-7 invisible game">
             <span id='remaining'>REMAINING:</span><br>
             <span id="remaining-count">0</span>
         </div>
+
+        <div class="grid-item-8 result invisible">
+            <span id="finished">FINISHED!</span>
+        </div>
+        <div class="grid-item-9 result invisible">
+            <span id="result-correct">Correct:</span>
+            <span id="result-correct-count">0</span>
+        </div>
+        <div class="grid-item-10 result invisible">
+            <span id="result-wrong">Wrong:</span>
+            <span id="result-wrong-count">0</span>
+        </div>
+
+        <div class="grid-item-11 result invisible">
+            <span id="result-percentage">percentage:</span>
+        </div>
+        <div class="grid-item-12 result invisible">
+            <button id="play-again">Play again?</span>
+        </div>
+        
     </div>
     <script type='module' src="/js/utils.js"></script>
     <script type="module" src="js/helper.js"></script>
