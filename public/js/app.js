@@ -8,11 +8,23 @@ window.onload = async () => {
     const data = await getData('data/words.txt');
     const lines = data.split('\n');
 
+    const chooseWordsButtons = document.querySelectorAll('.choose-words');
+    const menuElements = document.querySelectorAll('.menu')
     const playAgain = document.querySelector('#play-again');
-    let wordsCount = 5;
 
+
+    let wordsCount = 5
     
-    displayGame(lines,wordsCount);
+    chooseWordsButtons.forEach(button=>{
+        console.log('HEY');
+        button.addEventListener('click',()=>{
+            wordsCount = button.value
+            displayGame(lines,wordsCount);
+            menuElements.forEach(e=>{
+                e.classList.add('invisible');
+            });
+        })
+    })
 
     playAgain.addEventListener('click',()=>{
         const resultItems = document.querySelectorAll('.result');
@@ -21,5 +33,6 @@ window.onload = async () => {
         })
         displayGame(lines,wordsCount);
     })
+    
 };
 

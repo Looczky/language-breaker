@@ -116,7 +116,7 @@ async function displayGame(lines,wordsCount){
                     });
                     resultWrongCount.textContent = wrongCount.textContent;
                     resultCorrectCount.textContent = rightCount.textContent;
-                    resultPercentage.textContent = (Math.round(parseFloat(rightCount.textContent) * 10000/ 3) / 100) + '%';
+                    resultPercentage.textContent = (Math.round(parseFloat(rightCount.textContent) * 10000/ wordsCount) / 100) + '%';
                     resultItems.forEach(item=>{
                         item.classList.remove('invisible');
                     });
