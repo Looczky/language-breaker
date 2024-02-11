@@ -185,7 +185,7 @@ body{
     grid-template-columns: repeat($total-columns,percentage(calc(1/$total-columns)));
 }
 
-@media only screen and (max-width:768px){
+@media only screen and (max-width:1024px){
     .container{
         @include split-by(3);
         grid-template-rows: 10% 10% 30% 30% 20%;
@@ -285,7 +285,36 @@ body{
     }
 }
 
-@media only screen and (min-width: 768px){
+@media (min-width:768px) and (max-width:1024px) {
+    // FONT SETUP
+    .grid-item-1,
+    .grid-item-13,
+    .grid-item-8
+    {
+        font-size:6rem;
+    }
+    
+    #play-again,
+    #change-word-set-button{
+        font-size: 2rem;
+    }
+    
+    
+    .link,
+    .choose-words,
+    .grid-item-9,
+    .grid-item-10{
+        font-size:3rem
+    }
+    
+    .grid-item-11{
+        font-size:3rem;
+    }
+    .info{
+        font-size:1.5rem;
+    }
+}
+@media only screen and (min-width: 1024px){
 
     // FONT SETUP
         .grid-item-1,
