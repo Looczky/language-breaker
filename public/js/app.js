@@ -41,7 +41,6 @@ window.onload = async () => {
             item.classList.add('invisible');
         });
         document.querySelectorAll('.link').forEach(button=>{
-            console.log('co');
             button.replaceWith(button.cloneNode(true));
         });
         chooseSetButton.classList.add('invisible');
