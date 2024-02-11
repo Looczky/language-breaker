@@ -14,9 +14,6 @@ window.onload = async () => {
     const chooseSetButton = document.querySelector('#change-word-set');
     const resultItems = document.querySelectorAll('.result');
     const gameItems = document.querySelectorAll('.game');
-    const gameButtonLeft = document.querySelector('#guess1');
-    const gameButtonUp = document.querySelector('#guess2');
-    const gameButtonRight = document.querySelector('#guess3');
 
     let wordsCount = 5
     
@@ -50,6 +47,10 @@ window.onload = async () => {
     })
 
     document.addEventListener('keydown',(e)=>{
+        const gameButtonLeft = document.querySelector('#guess1');
+        const gameButtonUp = document.querySelector('#guess2');
+        const gameButtonRight = document.querySelector('#guess3');
+        
         switch(e.key){
             case 'ArrowLeft':
                 if (!gameButtonLeft.classList.contains('invisible'))
