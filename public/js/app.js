@@ -14,6 +14,9 @@ window.onload = async () => {
     const chooseSetButton = document.querySelector('#change-word-set');
     const resultItems = document.querySelectorAll('.result');
     const gameItems = document.querySelectorAll('.game');
+    const gameButtonLeft = document.querySelector('#guess1');
+    const gameButtonUp = document.querySelector('#guess2');
+    const gameButtonRight = document.querySelector('#guess3');
 
     let wordsCount = 5
     
@@ -45,6 +48,21 @@ window.onload = async () => {
         });
         chooseSetButton.classList.add('invisible');
     })
+
+    document.addEventListener('keydown',(e)=>{
+        if (!gameButtonLeft.classList.contains('invisible')){
+            if (e.key === 'ArrowLeft'){
+                gameButtonLeft.click();
+            }
+            else if (e.key === 'ArrowUp'){
+                gameButtonUp.click();
+            }
+            else if (e.key === 'ArrowRight'){
+                gameButtonRight.click();
+            }
+        }
+    })
+
 
     playAgain.addEventListener('click',()=>{
         
