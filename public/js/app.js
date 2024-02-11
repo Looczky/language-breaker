@@ -50,16 +50,25 @@ window.onload = async () => {
     })
 
     document.addEventListener('keydown',(e)=>{
-        if (!gameButtonLeft.classList.contains('invisible')){
-            if (e.key === 'ArrowLeft'){
-                gameButtonLeft.click();
-            }
-            else if (e.key === 'ArrowUp'){
-                gameButtonUp.click();
-            }
-            else if (e.key === 'ArrowRight'){
-                gameButtonRight.click();
-            }
+        switch(e.key){
+            case 'ArrowLeft':
+                if (!gameButtonLeft.classList.contains('invisible'))
+                    gameButtonLeft.click();
+                break;
+            case 'ArrowUp':
+                if (!gameButtonUp.classList.contains('invisible'))
+                    gameButtonUp.click();
+                break;
+            
+            case 'ArrowRight':
+                if (!gameButtonRight.classList.contains('invisible'))
+                    gameButtonRight.click();
+                break;
+            case 'Enter':
+            case ' ':
+                if (!playAgain.parentElement.classList.contains('invisible'))
+                    playAgain.click();
+            
         }
     })
 
