@@ -1,7 +1,7 @@
 'use strict'
 
 import { getData} from "./utils.js";
-import { displayGame} from "./helper.js";
+import { displayGame, constructWordsPack} from "./helper.js";
 
 window.onload = async () => {
 
@@ -16,12 +16,14 @@ window.onload = async () => {
     const gameItems = document.querySelectorAll('.game');
 
     let wordsCount = 5
+    let pack = constructWordsPack(lines,wordsCount)
     
     chooseWordsButtons.forEach(button=>{
-        console.log('HEY');
         button.addEventListener('click',()=>{
             wordsCount = button.value
-            displayGame(lines,wordsCount);
+            pack = constructWordsPack(lines,wordsCount);
+            displayGame(pack);
+
             menuElements.forEach(e=>{
                 e.classList.add('invisible');
             });
@@ -35,7 +37,7 @@ window.onload = async () => {
             e.classList.remove('invisible');
         })
         resultItems.forEach(e=>{
-            e.classList.add('invisible')
+            e.classList.add('invisible');
         })
         gameItems.forEach(item=>{
             item.classList.add('invisible');
@@ -69,17 +71,17 @@ window.onload = async () => {
             case ' ':
                 if (!playAgain.parentElement.classList.contains('invisible'))
                     playAgain.click();
+                break;
             
         }
     })
 
 
     playAgain.addEventListener('click',()=>{
-        
         resultItems.forEach(item=>{
             item.classList.add('invisible');
         })
-        displayGame(lines,wordsCount);
+        displayGame(pack);
     })
     
 };

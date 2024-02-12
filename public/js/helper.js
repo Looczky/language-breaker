@@ -1,6 +1,6 @@
 'use strict';
 
-import { getRandomAndDelete } from "./utils.js"
+import { getRandomAndDelete, getCookie} from "./utils.js"
 
 function constructWordsPack(lines,wordsCount){
     let linesPool = [...lines];
@@ -41,7 +41,7 @@ function setValues(pack,i){
     return correctPos;
 }
 
-async function displayGame(lines,wordsCount){
+async function displayGame(pack){
     const target = document.querySelector('#target');
     const guess1 = document.querySelector('#guess1');
     const guess2 = document.querySelector('#guess2');
@@ -57,7 +57,9 @@ async function displayGame(lines,wordsCount){
     const resultCorrectCount = document.querySelector('#result-correct-count');
     const resultPercentage = document.querySelector('#result-percentage');
 
-    let pack = constructWordsPack(lines,wordsCount);
+    const wordsCount = pack.length;
+    let gameAccuracyTracker = [];
+
     let i = 0;
 
     remainingCount.textContent = wordsCount;
@@ -70,8 +72,9 @@ async function displayGame(lines,wordsCount){
         item.classList.remove('invisible');
     });
 
+    gameAccuracyTracker = [];
 
-    let clickable = true
+    let clickable = true;
     document.querySelectorAll('.link').forEach(async link =>{
         link.addEventListener('click',async ()=> {
             if (!clickable) return;
@@ -81,8 +84,10 @@ async function displayGame(lines,wordsCount){
                 i++;
                 if (link.id == 'guess' + correctValue) {
                     rightCount.textContent = parseInt(rightCount.textContent) + 1;
+                    gameAccuracyTracker.push(1)
                 } else {
                     wrongCount.textContent = parseInt(wrongCount.textContent) + 1;
+                    gameAccuracyTracker.push(0)
                 }
                 remainingCount.textContent = parseInt(remainingCount.textContent) - 1;
                 
@@ -114,6 +119,11 @@ async function displayGame(lines,wordsCount){
                     gameItems.forEach(item=>{
                         item.classList.add('invisible');
                     });
+                    
+                    document.cookie=`gameTracker = ${gameAccuracyTracker}`;
+                    const cookie = getCookie('gameTracker');
+                    console.log(cookie);
+
                     resultWrongCount.textContent = wrongCount.textContent;
                     resultCorrectCount.textContent = rightCount.textContent;
                     resultPercentage.textContent = (Math.round(parseFloat(rightCount.textContent) * 10000/ wordsCount) / 100) + '%';
