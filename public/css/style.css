@@ -122,6 +122,10 @@ body {
   grid-row: 4/5;
   grid-column: 1/2;
 }
+.grid-item-21{
+  grid-row:4/5;
+  grid-column:2/4;
+}
 
 #play-again {
   border: none;
@@ -265,6 +269,10 @@ body {
   .grid-item-20 {
     grid-row: 5/6;
     grid-column: 1/2;
+  }
+  .grid-item-21{
+    grid-row:4/5;
+    grid-column:1/4;
   }
 }
 @media (min-width: 768px) and (max-width: 1024px) {

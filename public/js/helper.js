@@ -121,14 +121,26 @@ async function displayGame(pack){
                     });
                     
                     document.cookie=`gameTracker = ${gameAccuracyTracker}`;
-                    const cookie = getCookie('gameTracker');
-                    console.log(cookie);
 
                     resultWrongCount.textContent = wrongCount.textContent;
                     resultCorrectCount.textContent = rightCount.textContent;
                     resultPercentage.textContent = (Math.round(parseFloat(rightCount.textContent) * 10000/ wordsCount) / 100) + '%';
                     resultItems.forEach(item=>{
                         item.classList.remove('invisible');
+                    });
+
+                    const cookie = getCookie('gameTracker').split(',');
+                    pack.forEach((word,index)=>{
+                        console.log(word);
+                        const newListElement = document.createElement('li');
+                        newListElement.textContent = `${word[0]}: ${word[1]}`;
+                        if (cookie[index] == '1'){
+                            newListElement.style.color='green';
+                        }
+                        else if (cookie[index] == '0'){
+                            newListElement.style.color='red';
+                        }
+                        document.querySelector('#result-words').appendChild(newListElement);
                     });
                 }
             }
