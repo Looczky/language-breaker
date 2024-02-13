@@ -41,6 +41,21 @@ function setValues(pack,i){
     return correctPos;
 }
 
+function rightEffect(){
+    const right = document.querySelector('#right');
+    right.classList.remove('right-animation');
+    void right.offsetWidth;
+    right.classList.add('right-animation');
+}
+
+
+function wrongEffect(){
+    const wrong = document.querySelector('#wrong');
+    wrong.classList.remove('wrong-animation');
+    void wrong.offsetWidth;
+    wrong.classList.add('wrong-animation');
+}
+
 async function displayGame(pack){
     const target = document.querySelector('#target');
     const guess1 = document.querySelector('#guess1');
@@ -84,10 +99,12 @@ async function displayGame(pack){
                 i++;
                 if (link.id == 'guess' + correctValue) {
                     rightCount.textContent = parseInt(rightCount.textContent) + 1;
-                    gameAccuracyTracker.push(1)
+                    gameAccuracyTracker.push(1);
+                    rightEffect();
                 } else {
                     wrongCount.textContent = parseInt(wrongCount.textContent) + 1;
                     gameAccuracyTracker.push(0)
+                    wrongEffect();
                 }
                 remainingCount.textContent = parseInt(remainingCount.textContent) - 1;
                 
