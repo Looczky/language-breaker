@@ -130,6 +130,12 @@ async function displayGame(pack){
                     });
 
                     const cookie = getCookie('gameTracker').split(',');
+
+                    const resultWordsList = document.querySelector('#result-words');
+                    while (resultWordsList.firstChild) {
+                        resultWordsList.removeChild(resultWordsList.firstChild);
+                    }
+                    
                     pack.forEach((word,index)=>{
                         console.log(word);
                         const newListElement = document.createElement('li');
@@ -140,7 +146,7 @@ async function displayGame(pack){
                         else if (cookie[index] == '0'){
                             newListElement.style.color='red';
                         }
-                        document.querySelector('#result-words').appendChild(newListElement);
+                        resultWordsList.appendChild(newListElement);
                     });
                 }
             }

@@ -20,7 +20,7 @@ window.onload = async () => {
     
     chooseWordsButtons.forEach(button=>{
         button.addEventListener('click',()=>{
-            wordsCount = button.value
+            wordsCount = button.value;
             pack = constructWordsPack(lines,wordsCount);
             displayGame(pack);
 
@@ -28,6 +28,7 @@ window.onload = async () => {
                 e.classList.add('invisible');
             });
             chooseSetButton.classList.remove('invisible');
+            
         })
 
     })
