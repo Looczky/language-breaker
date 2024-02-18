@@ -1,6 +1,6 @@
 'use strict';
 
-import { getRandomAndDelete, getCookie} from "./utils.js"
+import { getRandomAndDelete, getCookie} from "./utils.js";
 
 function constructWordsPack(lines,wordsCount){
     let linesPool = [...lines];
@@ -24,7 +24,6 @@ function setValues(pack,i){
     target.textContent = pack[i][0]
 
     let correctPos = Math.floor((Math.random()*3)+1)
-    console.log(correctPos,pack[i][1])
     if (correctPos === 1) {
         guess1.textContent = pack[i][1];
         guess2.textContent = pack[i][2];
@@ -71,11 +70,18 @@ async function displayGame(pack){
     const resultWrongCount = document.querySelector('#result-wrong-count');
     const resultCorrectCount = document.querySelector('#result-correct-count');
     const resultPercentage = document.querySelector('#result-percentage');
+    const right = document.querySelector('#right');
+    const wrong = document.querySelector('#wrong');
 
     const wordsCount = pack.length;
     let gameAccuracyTracker = [];
 
+    let jsonWords = getCookie('summary') ? JSON.parse(getCookie('summary')) : {};
+
     let i = 0;
+    
+    wrong.classList.remove('wrong-animation');
+    right.classList.remove('right-animation');
 
     remainingCount.textContent = wordsCount;
     rightCount.textContent = 0;
@@ -97,7 +103,8 @@ async function displayGame(pack){
         
             if (i < wordsCount) {
                 i++;
-                if (link.id == 'guess' + correctValue) {
+                let isCorrect = link.id == 'guess'+correctValue;
+                if (isCorrect) {
                     rightCount.textContent = parseInt(rightCount.textContent) + 1;
                     gameAccuracyTracker.push(1);
                     rightEffect();
@@ -106,6 +113,10 @@ async function displayGame(pack){
                     gameAccuracyTracker.push(0)
                     wrongEffect();
                 }
+                const statsUpdate = [isCorrect ? 1 : 0, 1];
+                let text = document.querySelector('#target').textContent;
+                jsonWords[text] = jsonWords.hasOwnProperty(text) ? jsonWords[text].map((value,index)=>value + statsUpdate[index]): statsUpdate;
+                
                 remainingCount.textContent = parseInt(remainingCount.textContent) - 1;
                 
                 let guesses = [guess1,guess2,guess3]
@@ -137,7 +148,9 @@ async function displayGame(pack){
                         item.classList.add('invisible');
                     });
                     
-                    document.cookie=`gameTracker = ${gameAccuracyTracker}`;
+                    const jsonString = JSON.stringify(jsonWords);
+                    document.cookie = "summary = " + encodeURIComponent(jsonString);
+                    document.cookie="gameTracker = " + encodeURIComponent(gameAccuracyTracker);
 
                     resultWrongCount.textContent = wrongCount.textContent;
                     resultCorrectCount.textContent = rightCount.textContent;
@@ -154,7 +167,6 @@ async function displayGame(pack){
                     }
                     
                     pack.forEach((word,index)=>{
-                        console.log(word);
                         const newListElement = document.createElement('li');
                         newListElement.textContent = `${word[0]}: ${word[1]}`;
                         if (cookie[index] == '1'){
