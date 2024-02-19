@@ -85,5 +85,10 @@ window.onload = async () => {
         displayGame(pack);
     })
     
+
+    const returnButton = document.querySelector('#return');
+    returnButton.onclick = ()=>{
+        window.location.href='/summary';
+    }
 };
 

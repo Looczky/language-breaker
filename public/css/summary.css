@@ -1,0 +1,41 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: #E5DECF;
+  }
+
+.container {
+display: grid;
+grid-template-columns: 30% 20% 20% 30%;
+grid-template-rows: 15% auto;
+
+}
+
+#words{
+    grid-column:1/5;
+}
+
+.word-div{
+    display:grid;
+    grid-template-columns: 30% 10% 10% 50%;
+}
+
+
+#heading1{
+    grid-row: 1/2;
+    grid-column: 1/5;
+    font-size:6rem;
+}
+
+.word{
+    grid-column:1/2
+}
+
+.word-correct{
+    grid-column: 2/3;
+}
+
+.word-all-tries{
+    grid-column: 3/4;
+}
