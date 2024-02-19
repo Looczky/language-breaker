@@ -8,6 +8,8 @@ window.onload = ()=>{
     if (JSONString != ''){
         const summary = JSON.parse(JSONString);
         for (let word in summary){
+            const correct = parseInt(summary[word][0]);
+            const all = parseInt(summary[word][1]);
             const wordsDiv = document.querySelector('#words');
             const wordLine = document.createElement('div');
             const span = document.createElement('span')
@@ -19,14 +21,15 @@ window.onload = ()=>{
             span1.textContent = word;
             
             span2.classList += 'word-correct';
-            span2.textContent = summary[word][0];
+            span2.textContent = correct+'/'+all;
             
-            span3.classList += 'word-all-tries';
-            span3.textContent = summary[word][1];
-            
+            span3.classList += 'word-percentage';
+            span3.textContent = Math.round(correct/all,2)*100+'%'
+
             wordLine.appendChild(span1);
             wordLine.appendChild(span2);
             wordLine.appendChild(span3);
+
             wordLine.classList += 'word-div';
             
             wordsDiv.appendChild(wordLine);
