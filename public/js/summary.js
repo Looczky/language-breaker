@@ -1,8 +1,28 @@
 'use strict'
 
-import {getCookie} from "./utils.js";
+import {getCookie, roundedRect} from "./utils.js";
 
-window.onload = ()=>{
+function createPercentageBar(fillRatio = 1){
+    const canvas = document.createElement('canvas');
+
+    const ctx = canvas.getContext('2d');
+
+    const x = 10;
+    const y = 0;
+    const angle = 6
+    const width = 100;
+    const height = 20;
+    roundedRect(ctx,x,y,width,height,angle,'green');
+    if (fillRatio !== 0){
+        roundedRect(ctx,x,y,fillRatio*width,height,angle,'orange');
+    }
+    ctx.font = "20px Georgia";
+    ctx.fillStyle = 'red';
+    ctx.fillText(Math.round(fillRatio*100)+"%", x+30, y+15);
+    return (canvas);
+}
+
+function createFromCookie(){
     const JSONString = getCookie('summary');
 
     if (JSONString != ''){
@@ -16,6 +36,7 @@ window.onload = ()=>{
             const span1 = span.cloneNode(true);
             const span2 = span.cloneNode(true);
             const span3 = span.cloneNode(true);
+            const percentageBar = createPercentageBar(correct/all);
             
             span1.classList += 'word';
             span1.textContent = word;
@@ -29,6 +50,7 @@ window.onload = ()=>{
             wordLine.appendChild(span1);
             wordLine.appendChild(span2);
             wordLine.appendChild(span3);
+            wordLine.appendChild(percentageBar);
 
             wordLine.classList += 'word-div';
             
@@ -36,8 +58,13 @@ window.onload = ()=>{
         }
     }
 
+}
+
+window.onload = ()=>{
+    createFromCookie();
     const returnButton = document.querySelector('#return');
     returnButton.onclick = ()=>{
         window.location.href='/';
     }
+
 } 

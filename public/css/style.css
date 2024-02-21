@@ -171,7 +171,8 @@
 .link:hover,
 .choose-words:hover,
 #play-again:hover,
-#change-word-set-button:hover {
+#change-word-set-button:hover,
+#summary:hover {
   color: #b90745;
 }
 

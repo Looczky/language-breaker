@@ -86,7 +86,7 @@ window.onload = async () => {
     })
     
 
-    const returnButton = document.querySelector('#return');
+    const returnButton = document.querySelector('#summary');
     returnButton.onclick = ()=>{
         window.location.href='/summary';
     }
