@@ -34,7 +34,6 @@ function roundedRect(ctx, x, y, width, height, radius,fillColor = '') {
   ctx.arcTo(x + width, y + height, x + width, y + height - radius, radius);
   ctx.arcTo(x + width, y, x + width - radius, y, radius);
   ctx.arcTo(x, y, x, y + radius, radius);
-  // ctx.closePath();
   if (fillColor != ''){
     ctx.fillStyle = fillColor;
     ctx.fill();
