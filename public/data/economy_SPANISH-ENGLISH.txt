@@ -1,0 +1,85 @@
+Economía	Economy
+Mercado	Market
+Comercio	Trade
+Inversión	Investment
+Crecimiento	Growth
+Desarrollo	Development
+Producción	Production
+Consumo	Consumption
+Demanda	Demand
+Oferta	Supply
+Empresa	Company
+Industria	Industry
+Sector	Sector
+Mercancía	Goods
+Servicio	Service
+Fábrica	Factory
+Producto	Product
+Marca	Brand
+Calidad	Quality
+Precio	Price
+Costo	Cost
+Beneficio	Profit
+Ganancia	Gain
+Pérdida	Loss
+Impuesto	Tax
+Arancel	Tariff
+Inflación	Inflation
+Deflación	Deflation
+Recesión	Recession
+Depresión	Depression
+Crisis	Crisis
+Estancamiento	Stagnation
+Competencia	Competition
+Monopolio	Monopoly
+Oligopolio	Oligopoly
+Mercado libre	Free market
+Regulación	Regulation
+Banco	Bank
+Finanzas	Finance
+Dinero	Money
+Capital	Capital
+Fondos	Funds
+Préstamo	Loan
+Interés	Interest
+Divisa	Currency
+Tipo de cambio	Exchange rate
+Bolsa	Stock market
+Acción	Share
+Inversionista	Investor
+Dividendo	Dividend
+Riesgo	Risk
+Volatilidad	Volatility
+Economista	Economist
+Indicador	Indicator
+PIB	GDP
+CPI	CPI
+Índice de precios	Price index
+Desempleo	Unemployment
+Empleo	Employment
+Salario	Salary
+Ingreso	Income
+Gasto	Expense
+Deuda	Debt
+Déficit	Deficit
+Superávit	Surplus
+Balanza comercial	Trade balance
+Reserva	Reserve
+Mercado laboral	Labor market
+Reforma	Reform
+Globalización	Globalization
+Desregulación	Deregulation
+Privatización	Privatization
+Desarrollo sostenible	Sustainable development
+Desarrollo económico	Economic development
+Desarrollo humano	Human development
+Innovación	Innovation
+Tecnología	Technology
+Inversión extranjera	Foreign investment
+Pobreza	Poverty
+Desigualdad	Inequality
+Riqueza	Wealth
+Desarrollo social	Social development
+Economía de mercado	Market economy
+Economía planificada	Planned economy
+Economía mixta	Mixed economy

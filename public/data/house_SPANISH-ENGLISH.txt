@@ -1,0 +1,84 @@
+Casa	House
+Hogar	Home
+Vivienda	Dwelling
+Apartamento	Apartment
+Piso	Flat
+Cuarto	Room
+Dormitorio	Bedroom
+Sala	Living room
+Comedor	Dining room
+Cocina	Kitchen
+Baño	Bathroom
+Pasillo	Hallway
+Escalera	Staircase
+Balcón	Balcony
+Terraza	Terrace
+Jardín	Garden
+Patio	Patio
+Garaje	Garage
+Cochera	Carport
+Ventana	Window
+Puerta	Door
+Suelo	Floor
+Pared	Wall
+Techo	Roof
+Lámpara	Lamp
+Mesa	Table
+Silla	Chair
+Sofá	Sofa
+Cama	Bed
+Armario	Wardrobe
+Estantería	Shelf
+Nevera	Fridge
+Congelador	Freezer
+Lavadora	Washing machine
+Secadora	Dryer
+Lavavajillas	Dishwasher
+Fregadero	Sink
+Grifo	Tap
+Ducha	Shower
+Bañera	Bathtub
+Espejo	Mirror
+Inodoro	Toilet
+Bidé	Bidet
+Toalla	Towel
+Alfombra	Carpet
+Cortina	Curtain
+Persiana	Blind
+Estufa	Stove
+Horno	Oven
+Microondas	Microwave
+Tostadora	Toaster
+Cafetera	Coffee maker
+Tetera	Teapot
+Utensilios	Cookware
+Vajilla	Dishes
+Cubiertos	Cutlery
+Vaso	Glass
+Taza	Cup
+Plato	Plate
+Cuchillo	Knife
+Tenedor	Fork
+Cuchara	Spoon
+Olla	Pot
+Sartén	Pan
+Bolsa de basura	Garbage bag
+Escoba	Broom
+Aspiradora	Vacuum cleaner
+Fregona	Mop
+Cubo	Bucket
+Escobilla de baño	Toilet brush
+Esponja	Sponge
+Limpiador Cleaner
+Detergente	Detergent
+Desinfectante	Disinfectant
+Trapo	Cloth
+Papel higiénico	Toilet paper
+Papelera	Wastebasket
+Perchero	Coat rack
+Paragüero	Umbrella stand
+Chimenea	Fireplace
+Calefacción	Heating
+Aire acondicionado	Air conditioning
+Ventilador	Fan
+Alarma	Alarm
