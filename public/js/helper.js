@@ -55,21 +55,106 @@ function wrongEffect(){
     wrong.classList.add('wrong-animation');
 }
 
-async function displayGame(pack){
-    const target = document.querySelector('#target');
-    const guess1 = document.querySelector('#guess1');
-    const guess2 = document.querySelector('#guess2');
-    const guess3 = document.querySelector('#guess3');
-    
+function updateJson(json,isCorrect,correctGuessId){
+    let text = document.querySelector('#target').textContent;
+    const statsUpdate = [isCorrect ? 1 : 0, 1];
+    if (json.hasOwnProperty(text)){
+        json[text][0].map((value,index)=>value + statsUpdate[index])
+    }
+    else{
+        const translation = document.querySelector('#'+correctGuessId).textContent;
+        json[text] = [statsUpdate,translation]
+    }
+    return (json);
+}
 
+function updateDisplay(isCorrect,wrongCount,rightCount,gameAccuracyTracker){
+    if (isCorrect) {
+        rightCount.textContent = parseInt(rightCount.textContent) + 1;
+        gameAccuracyTracker.push(1);
+        rightEffect();
+    } else {
+        wrongCount.textContent = parseInt(wrongCount.textContent) + 1;
+        gameAccuracyTracker.push(0)
+        wrongEffect();
+    }
+}
+
+async function setGuessClasses(correctValue){
+    const guesses = [guess1,guess2,guess3]
+    for (let guess of guesses){
+        if (guess.id == 'guess' + correctValue){
+            guess.classList.add('correct')
+        }
+        else{
+            guess.classList.add('incorrect')
+        }
+    }
+    await new Promise(resolve => setTimeout(resolve, 200));
+    for (let guess of guesses){
+        if (guess.id == 'guess' + correctValue){
+            guess.classList.remove('correct')
+        }
+        else{
+            guess.classList.remove('incorrect')
+        }
+    }
+}
+
+function turnInvisible(classElements){
+    classElements.forEach(item=>{
+        item.classList.add('invisible');
+    });
+}
+
+function turnVisible(classElements){
+    classElements.forEach(item=>{
+        item.classList.remove('invisible');
+    });
+}
+
+function updateResult(rightCount,wrongCount,wordsCount){
+    const resultWrongCount = document.querySelector('#result-wrong-count');
+    const resultCorrectCount = document.querySelector('#result-correct-count');
+    const resultPercentage = document.querySelector('#result-percentage');
+
+    resultWrongCount.textContent = wrongCount.textContent;
+    resultCorrectCount.textContent = rightCount.textContent;
+    resultPercentage.textContent = (Math.round(parseFloat(rightCount.textContent) * 10000/ wordsCount) / 100) + '%';
+}
+
+function createPackTable(pack,resultWordsList,gameTracker){
+    pack.forEach((word,index)=>{
+        const newListElement = document.createElement('li');
+        newListElement.textContent = `${word[0]}: ${word[1]}`;
+        if (gameTracker[index] == '1'){
+            newListElement.style.color='green';
+        }
+        else if (gameTracker[index] == '0'){
+            newListElement.style.color='red';
+        }
+        resultWordsList.appendChild(newListElement);
+    });
+}
+
+function removeAllChildren(element){
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+}
+
+function pushResultsToCookie(json,gameAccuracyTracker){
+    const jsonString = JSON.stringify(json);
+    document.cookie = "summary = " + encodeURIComponent(jsonString);
+    document.cookie="gameTracker = " + encodeURIComponent(gameAccuracyTracker);
+}
+
+async function displayGame(pack){
     const rightCount = document.querySelector('#right-count');
     const wrongCount = document.querySelector('#wrong-count');
     const remainingCount = document.querySelector('#remaining-count');
     const gameItems = document.querySelectorAll('.game');
     const resultItems = document.querySelectorAll('.result');
-    const resultWrongCount = document.querySelector('#result-wrong-count');
-    const resultCorrectCount = document.querySelector('#result-correct-count');
-    const resultPercentage = document.querySelector('#result-percentage');
     const right = document.querySelector('#right');
     const wrong = document.querySelector('#wrong');
 
@@ -89,9 +174,7 @@ async function displayGame(pack){
 
     let correctValue = await setValues(pack,i);
 
-    gameItems.forEach(item=>{
-        item.classList.remove('invisible');
-    });
+    turnVisible(gameItems);
 
     gameAccuracyTracker = [];
 
@@ -100,83 +183,32 @@ async function displayGame(pack){
         link.addEventListener('click',async ()=> {
             if (!clickable) return;
             clickable = false;
-        
+            const correctGuessId = 'guess'+correctValue
             if (i < wordsCount) {
                 i++;
-                let isCorrect = link.id == 'guess'+correctValue;
-                if (isCorrect) {
-                    rightCount.textContent = parseInt(rightCount.textContent) + 1;
-                    gameAccuracyTracker.push(1);
-                    rightEffect();
-                } else {
-                    wrongCount.textContent = parseInt(wrongCount.textContent) + 1;
-                    gameAccuracyTracker.push(0)
-                    wrongEffect();
-                }
-                const statsUpdate = [isCorrect ? 1 : 0, 1];
-                let text = document.querySelector('#target').textContent;
-                jsonWords[text] = jsonWords.hasOwnProperty(text) ? jsonWords[text].map((value,index)=>value + statsUpdate[index]): statsUpdate;
-                
+                let isCorrect = link.id == correctGuessId;
+
+                updateDisplay(isCorrect,wrongCount,rightCount,gameAccuracyTracker);
+                updateJson(jsonWords,isCorrect,correctGuessId);
+
                 remainingCount.textContent = parseInt(remainingCount.textContent) - 1;
                 
-                let guesses = [guess1,guess2,guess3]
-                for (let guess of guesses){
-                    if (guess.id == 'guess' + correctValue){
-                        guess.classList.add('correct')
-                    }
-                    else{
-                        guess.classList.add('incorrect')
-                    }
-                }
-        
-                await new Promise(resolve => setTimeout(resolve, 200));
-        
-                for (let guess of guesses){
-                    if (guess.id == 'guess' + correctValue){
-                        guess.classList.remove('correct')
-                    }
-                    else{
-                        guess.classList.remove('incorrect')
-                    }
-                }
+                await setGuessClasses(correctValue);
         
                 if (i != wordsCount) {
                     correctValue = await setValues(pack, i);
                 }
                 else{
-                    gameItems.forEach(item=>{
-                        item.classList.add('invisible');
-                    });
-                    
-                    const jsonString = JSON.stringify(jsonWords);
-                    document.cookie = "summary = " + encodeURIComponent(jsonString);
-                    document.cookie="gameTracker = " + encodeURIComponent(gameAccuracyTracker);
-
-                    resultWrongCount.textContent = wrongCount.textContent;
-                    resultCorrectCount.textContent = rightCount.textContent;
-                    resultPercentage.textContent = (Math.round(parseFloat(rightCount.textContent) * 10000/ wordsCount) / 100) + '%';
-                    resultItems.forEach(item=>{
-                        item.classList.remove('invisible');
-                    });
-
-                    const cookie = getCookie('gameTracker').split(',');
+                    turnInvisible(gameItems);
+                    updateResult(rightCount,wrongCount,wordsCount);
+                    pushResultsToCookie(jsonWords,gameAccuracyTracker);
+                    turnVisible(resultItems);
 
                     const resultWordsList = document.querySelector('#result-words');
-                    while (resultWordsList.firstChild) {
-                        resultWordsList.removeChild(resultWordsList.firstChild);
-                    }
-                    
-                    pack.forEach((word,index)=>{
-                        const newListElement = document.createElement('li');
-                        newListElement.textContent = `${word[0]}: ${word[1]}`;
-                        if (cookie[index] == '1'){
-                            newListElement.style.color='green';
-                        }
-                        else if (cookie[index] == '0'){
-                            newListElement.style.color='red';
-                        }
-                        resultWordsList.appendChild(newListElement);
-                    });
+                    await removeAllChildren(resultWordsList)
+
+                    const cookieGameTracker = getCookie('gameTracker').split(',');
+                    createPackTable(pack,resultWordsList,cookieGameTracker);
                 }
             }
         

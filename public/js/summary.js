@@ -34,8 +34,8 @@ function createFromCookie(){
         const keys = Object.keys(summary).sort();
         for (let word of keys){
             console.log(word,keys);
-            const correct = parseInt(summary[word][0]);
-            const all = parseInt(summary[word][1]);
+            const correct = parseInt(summary[word][0][0]);
+            const all = parseInt(summary[word][0][1]);
             const wordsDiv = document.querySelector('#words');
             const wordLine = document.createElement('div');
             const span = document.createElement('span')

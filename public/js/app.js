@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import { getData} from "./utils.js";
 import { displayGame, constructWordsPack} from "./helper.js";
