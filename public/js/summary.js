@@ -33,7 +33,8 @@ function createFromCookie(){
         const summary = JSON.parse(JSONString);
         const keys = Object.keys(summary).sort();
         for (let word of keys){
-            console.log(word,keys);
+            const translation = summary[word][1];
+            console.log(translation);
             const correct = parseInt(summary[word][0][0]);
             const all = parseInt(summary[word][0][1]);
             const wordsDiv = document.querySelector('#words');
@@ -41,16 +42,21 @@ function createFromCookie(){
             const span = document.createElement('span')
             const span1 = span.cloneNode(true);
             const span2 = span.cloneNode(true);
+            const span3 = span.cloneNode(true);
             const percentageBar = createPercentageBar(correct/all);
             
-            span1.classList += 'word';
-            span1.textContent = word;
+            span1.classList += 'translation';
+            span1.textContent = translation;
+
+            span2.classList += 'word';
+            span2.textContent = word;
             
-            span2.classList += 'word-correct';
-            span2.textContent = correct+'/'+all;
+            span3.classList += 'word-correct';
+            span3.textContent = correct+'/'+all;
             
-            wordLine.appendChild(span1);
             wordLine.appendChild(span2);
+            wordLine.appendChild(span1);
+            wordLine.appendChild(span3);
             wordLine.appendChild(percentageBar);
 
             wordLine.classList += 'word-div';
