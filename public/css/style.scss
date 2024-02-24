@@ -170,12 +170,22 @@ $hover-color-basic: #b90745;
   font-size: 3vw;
 }
 
-.link:hover,
-.choose-words:hover,
-#play-again:hover,
-#change-word-set-button:hover,
-#summary:hover {
-  color: $hover-color-basic;
+@mixin hover-supported{
+  @media (hover: hover){
+    @content;
+  }
+}
+
+.link,
+.choose-words,
+#play-again,
+#change-word-set-button,
+#summary{
+  @include hover-supported(){
+    &:hover{
+      color: $hover-color-basic;
+    }
+  }
 }
 
 .correct {

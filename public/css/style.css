@@ -168,12 +168,14 @@
   font-size: 3vw;
 }
 
-.link:hover,
-.choose-words:hover,
-#play-again:hover,
-#change-word-set-button:hover,
-#summary:hover {
-  color: #b90745;
+@media (hover: hover) {
+  .link:hover,
+  .choose-words:hover,
+  #play-again:hover,
+  #change-word-set-button:hover,
+  #summary:hover {
+    color: #b90745;
+  }
 }
 
 .correct {
