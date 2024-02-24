@@ -1,6 +1,6 @@
 'use strict';
 
-import { getRandomAndDelete, getCookie} from "./utils.js";
+import { getRandomAndDelete, getCookie, removeAllChildren} from "./utils.js";
 
 function constructWordsPack(lines,wordsCount){
     let linesPool = [...lines];
@@ -59,7 +59,7 @@ function updateJson(json,isCorrect,correctGuessId){
     let text = document.querySelector('#target').textContent;
     const statsUpdate = [isCorrect ? 1 : 0, 1];
     if (json.hasOwnProperty(text)){
-        json[text][0].map((value,index)=>value + statsUpdate[index])
+        json[text][0] = json[text][0].map((value,index)=>value + statsUpdate[index])
     }
     else{
         const translation = document.querySelector('#'+correctGuessId).textContent;
@@ -101,13 +101,13 @@ async function setGuessClasses(correctValue){
     }
 }
 
-function turnInvisible(classElements){
+function hideElements(classElements){
     classElements.forEach(item=>{
         item.classList.add('invisible');
     });
 }
 
-function turnVisible(classElements){
+function showElements(classElements){
     classElements.forEach(item=>{
         item.classList.remove('invisible');
     });
@@ -137,16 +137,15 @@ function createPackTable(pack,resultWordsList,gameTracker){
     });
 }
 
-function removeAllChildren(element){
-    while (element.firstChild) {
-        element.removeChild(element.firstChild);
-    }
-}
-
 function pushResultsToCookie(json,gameAccuracyTracker){
     const jsonString = JSON.stringify(json);
     document.cookie = "summary = " + encodeURIComponent(jsonString);
     document.cookie="gameTracker = " + encodeURIComponent(gameAccuracyTracker);
+}
+
+function pushJSONToLocalStorage(json){
+    const jsonString = JSON.stringify(json);
+    localStorage.setItem('summary',jsonString);
 }
 
 async function displayGame(pack){
@@ -161,8 +160,8 @@ async function displayGame(pack){
     const wordsCount = pack.length;
     let gameAccuracyTracker = [];
 
-    let jsonWords = getCookie('summary') ? JSON.parse(getCookie('summary')) : {};
-
+    const localSummary = JSON.parse(localStorage.getItem('summary'));
+    let jsonWords = localSummary === null ? {} : localSummary;
     let i = 0;
     
     wrong.classList.remove('wrong-animation');
@@ -174,7 +173,7 @@ async function displayGame(pack){
 
     let correctValue = await setValues(pack,i);
 
-    turnVisible(gameItems);
+    showElements(gameItems);
 
     gameAccuracyTracker = [];
 
@@ -199,10 +198,11 @@ async function displayGame(pack){
                     correctValue = await setValues(pack, i);
                 }
                 else{
-                    turnInvisible(gameItems);
+                    hideElements(gameItems);
                     updateResult(rightCount,wrongCount,wordsCount);
                     pushResultsToCookie(jsonWords,gameAccuracyTracker);
-                    turnVisible(resultItems);
+                    pushJSONToLocalStorage(jsonWords);
+                    showElements(resultItems);
 
                     const resultWordsList = document.querySelector('#result-words');
                     await removeAllChildren(resultWordsList)
@@ -217,4 +217,48 @@ async function displayGame(pack){
     });
 }
 
-export {constructWordsPack, setValues, displayGame}
+function showMenu(chooseSetButton,menuElements,resultItems,gameItems,linkElements){
+    chooseSetButton.addEventListener('click',()=>{
+        showElements(menuElements);
+        hideElements(resultItems);
+        hideElements(gameItems);
+        linkElements.forEach(button=>{
+            button.replaceWith(button.cloneNode(true));
+        });
+        chooseSetButton.classList.add('invisible');
+    })
+
+}
+
+function addKeyboardListeners(playAgain){
+    document.addEventListener('keydown',(e)=>{
+        const gameButtonLeft = document.querySelector('#guess1');
+        const gameButtonUp = document.querySelector('#guess2');
+        const gameButtonRight = document.querySelector('#guess3');
+        
+        switch(e.key){
+            case 'ArrowLeft':
+                if (!gameButtonLeft.classList.contains('invisible'))
+                    gameButtonLeft.click();
+                break;
+            case 'ArrowUp':
+                if (!gameButtonUp.classList.contains('invisible'))
+                    gameButtonUp.click();
+                break;
+            
+            case 'ArrowRight':
+                if (!gameButtonRight.classList.contains('invisible'))
+                    gameButtonRight.click();
+                break;
+            case 'Enter':
+            case ' ':
+                if (!playAgain.parentElement.classList.contains('invisible'))
+                    playAgain.click();
+                break;
+            
+        }
+    })
+}
+
+export {constructWordsPack, setValues, displayGame,showMenu, addKeyboardListeners,
+hideElements}

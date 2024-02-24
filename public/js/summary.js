@@ -26,10 +26,9 @@ function createPercentageBar(fillRatio = 1){
     return (canvas);
 }
 
-function createFromCookie(){
-    const JSONString = getCookie('summary');
-
-    if (JSONString != ''){
+function createFromLocalData(){
+    const JSONString = localStorage.getItem('summary');
+    if (JSONString != null){
         const summary = JSON.parse(JSONString);
         const keys = Object.keys(summary).sort();
         for (let word of keys){
@@ -68,7 +67,7 @@ function createFromCookie(){
 }
 
 window.onload = ()=>{
-    createFromCookie();
+    createFromLocalData();
     const returnButton = document.querySelector('#return');
     returnButton.onclick = ()=>{
         window.location.href='/';

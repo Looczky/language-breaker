@@ -41,4 +41,10 @@ function roundedRect(ctx, x, y, width, height, radius,fillColor = '') {
   ctx.stroke();
 }
 
-export {getRandomAndDelete, getData, getCookie,roundedRect}
+function removeAllChildren(element){
+  while (element.firstChild) {
+      element.removeChild(element.firstChild);
+  }
+}
+
+export {getRandomAndDelete, getData, getCookie,roundedRect,removeAllChildren}

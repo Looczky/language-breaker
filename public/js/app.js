@@ -1,7 +1,7 @@
 'use strict';
 
-import { getData} from "./utils.js";
-import { displayGame, constructWordsPack} from "./helper.js";
+import { getData } from "./utils.js";
+import { displayGame, constructWordsPack,showMenu, addKeyboardListeners,hideElements} from "./helper.js";
 
 window.onload = async () => {
 
@@ -14,6 +14,7 @@ window.onload = async () => {
     const chooseSetButton = document.querySelector('#change-word-set');
     const resultItems = document.querySelectorAll('.result');
     const gameItems = document.querySelectorAll('.game');
+    const linkElements = document.querySelectorAll('.link');
 
     let wordsCount = 5
     let pack = constructWordsPack(lines,wordsCount)
@@ -24,68 +25,21 @@ window.onload = async () => {
             pack = constructWordsPack(lines,wordsCount);
             displayGame(pack);
 
-            menuElements.forEach(e=>{
-                e.classList.add('invisible');
-            });
+            hideElements(menuElements);
             chooseSetButton.classList.remove('invisible');
             
         })
 
     })
 
-    chooseSetButton.addEventListener('click',()=>{
-        menuElements.forEach(e=>{
-            e.classList.remove('invisible');
-        })
-        resultItems.forEach(e=>{
-            e.classList.add('invisible');
-        })
-        gameItems.forEach(item=>{
-            item.classList.add('invisible');
-        });
-        document.querySelectorAll('.link').forEach(button=>{
-            button.replaceWith(button.cloneNode(true));
-        });
-        chooseSetButton.classList.add('invisible');
-    })
-
-    document.addEventListener('keydown',(e)=>{
-        const gameButtonLeft = document.querySelector('#guess1');
-        const gameButtonUp = document.querySelector('#guess2');
-        const gameButtonRight = document.querySelector('#guess3');
-        
-        switch(e.key){
-            case 'ArrowLeft':
-                if (!gameButtonLeft.classList.contains('invisible'))
-                    gameButtonLeft.click();
-                break;
-            case 'ArrowUp':
-                if (!gameButtonUp.classList.contains('invisible'))
-                    gameButtonUp.click();
-                break;
-            
-            case 'ArrowRight':
-                if (!gameButtonRight.classList.contains('invisible'))
-                    gameButtonRight.click();
-                break;
-            case 'Enter':
-            case ' ':
-                if (!playAgain.parentElement.classList.contains('invisible'))
-                    playAgain.click();
-                break;
-            
-        }
-    })
-
+    showMenu(chooseSetButton,menuElements,resultItems,gameItems,linkElements);
+    addKeyboardListeners(playAgain)
 
     playAgain.addEventListener('click',()=>{
-        resultItems.forEach(item=>{
-            item.classList.add('invisible');
-        })
+        hideElements(resultItems);
         displayGame(pack);
     })
     
-
     const returnButton = document.querySelector('#summary');
     returnButton.onclick = ()=>{
         window.location.href='/summary';
